@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -13,31 +15,35 @@ export default function SignUpComponent() {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const [errorMessage, setErrorMessage] = useState("");
-
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     async function handleSignup(event: any) {
         event.preventDefault();
-        setErrorMessage("");
-
+        setErrorMessage("");  
+        setLoading(true);
+        const formData = new FormData(event.target);
+        const result = await signup(formData);
         if (password != confirmPassword) {
           setErrorMessage("Passwords do not match");
+          setLoading(false);
           return;
         }
         if (email != confirmEmail) { 
           setErrorMessage("Emails do not match");
+          setLoading(false);
           return;
         }
 
         if (!isStrongPasword(password)) { 
-          setErrorMessage("Password must be 8 characters long, contain an uppercase and lowercase letter, a number and a special character.")
+          setErrorMessage("Password must be 8 characters long, contain an uppercase and lowercase letter, a number and a special character.");
+          setLoading(false);
           return;
         }
 
-        const formData = new FormData(event.target);
-        const result = await signup(formData);
         if (result.error) {
           setErrorMessage(result.error);
+          setLoading(false);
         } else {
           router.push("/private");
         }
@@ -90,7 +96,7 @@ export default function SignUpComponent() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 />
 
-                <button type="submit">Sign up</button>
+                <button type="submit">{loading ? "Signing you up!" : "Sign Up"}</button>
             </form>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </>

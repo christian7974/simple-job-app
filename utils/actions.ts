@@ -2,7 +2,6 @@
 
 import { revalidatePath } from 'next/cache';
 
-
 import { createClient } from '@/utils/supabase/server'
 import { isStrongPasword } from '@/utils/signIn';
 
@@ -32,7 +31,6 @@ export async function signup(formData: FormData) {
 
   }
 
-  console.log("successfully signed up")
   revalidatePath('/', 'layout')
   return { success: true };
 
@@ -50,7 +48,6 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    console.log("error");
     return {error: error.message}
   }
 
@@ -63,11 +60,9 @@ export async function logout() {
   const { error } = await supabase.auth.signOut();
 
   if (error) {
-    console.log(error)
     return {error: error.message}
 
   }
-  console.log("logged out")
   revalidatePath('/', 'layout')
   revalidatePath('/private', 'layout')
   return { success: true };
