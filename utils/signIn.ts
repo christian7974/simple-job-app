@@ -6,10 +6,10 @@ export function isStrongPasword(password: string): boolean {
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
 
     return (
-      password.length >= minLength &&
-      hasNumber.test(password) &&
-      hasUpperCase.test(password) &&
-      hasLowerCase.test(password) &&
-      hasSpecialChar.test(password)
+        password.length >= minLength &&
+        hasNumber.test(password) &&
+        hasUpperCase.test(password) &&
+        hasLowerCase.test(password) &&
+        hasSpecialChar.test(password)
     );
 }

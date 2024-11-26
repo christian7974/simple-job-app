@@ -11,7 +11,7 @@ interface Application {
 }
 
 interface ApplicationTableProps {
-  applicationsList: Application[];
+    applicationsList: Application[];
 }
 
 export default function ApplicationTable({ applicationsList }: ApplicationTableProps) {

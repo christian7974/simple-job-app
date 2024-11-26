@@ -21,81 +21,81 @@ export default function SignUpComponent() {
 
     async function handleSignup(event: any) {
         event.preventDefault();
-        setErrorMessage("");  
+        setErrorMessage("");
         setLoading(true);
         const formData = new FormData(event.target);
         const result = await signup(formData);
         if (password != confirmPassword) {
-          setErrorMessage("Passwords do not match");
-          setLoading(false);
-          return;
+            setErrorMessage("Passwords do not match");
+            setLoading(false);
+            return;
         }
-        if (email != confirmEmail) { 
-          setErrorMessage("Emails do not match");
-          setLoading(false);
-          return;
+        if (email != confirmEmail) {
+            setErrorMessage("Emails do not match");
+            setLoading(false);
+            return;
         }
 
-        if (!isStrongPasword(password)) { 
-          setErrorMessage("Password must be 8 characters long, contain an uppercase and lowercase letter, a number and a special character.");
-          setLoading(false);
-          return;
+        if (!isStrongPasword(password)) {
+            setErrorMessage("Password must be 8 characters long, contain an uppercase and lowercase letter, a number and a special character.");
+            setLoading(false);
+            return;
         }
 
         if (result.error) {
-          setErrorMessage(result.error);
-          setLoading(false);
+            setErrorMessage(result.error);
+            setLoading(false);
         } else {
-          router.push("/private");
+            router.push("/private");
         }
-      }
+    }
 
     return (
         <>
             <h1>Sign Up</h1>
-            <button onClick={() => {setShowPassword(!showPassword)}}>{showPassword ? "Hide Password" : "Show Password"}</button>
+            <button onClick={() => { setShowPassword(!showPassword) }}>{showPassword ? "Hide Password" : "Show Password"}</button>
             <form onSubmit={handleSignup}>
                 <label htmlFor="email">Email:</label>
                 <input
-                id="email"
-                className="text-black"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                    id="email"
+                    className="text-black"
+                    name="email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <label htmlFor="email">Confirm Email:</label>
                 <input
-                id="confirmEmail"
-                className="text-black"
-                name="confirmEmail"
-                type="email"
-                required
-                value={confirmEmail}
-                onChange={(e) => setConfirmEmail(e.target.value)}
+                    id="confirmEmail"
+                    className="text-black"
+                    name="confirmEmail"
+                    type="email"
+                    required
+                    value={confirmEmail}
+                    onChange={(e) => setConfirmEmail(e.target.value)}
                 />
 
                 <label htmlFor="password">Password:</label>
                 <input
-                id="password"
-                className="text-black"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                    id="password"
+                    className="text-black"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
                 <label htmlFor="password">Confirm Password:</label>
                 <input
-                id="confirmPassword"
-                className="text-black"
-                name="confirmPassword"
-                type={showPassword ? "text" : "password"}
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                    id="confirmPassword"
+                    className="text-black"
+                    name="confirmPassword"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                 />
                 <button type="submit">{loading ? "Signing you up!" : "Sign Up"}</button>
             </form>
