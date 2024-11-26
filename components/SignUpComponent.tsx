@@ -13,6 +13,7 @@ export default function SignUpComponent() {
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
@@ -52,6 +53,7 @@ export default function SignUpComponent() {
     return (
         <>
             <h1>Sign Up</h1>
+            <button onClick={() => {setShowPassword(!showPassword)}}>{showPassword ? "Hide Password" : "Show Password"}</button>
             <form onSubmit={handleSignup}>
                 <label htmlFor="email">Email:</label>
                 <input
@@ -80,7 +82,7 @@ export default function SignUpComponent() {
                 id="password"
                 className="text-black"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -90,12 +92,11 @@ export default function SignUpComponent() {
                 id="confirmPassword"
                 className="text-black"
                 name="confirmPassword"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-
                 <button type="submit">{loading ? "Signing you up!" : "Sign Up"}</button>
             </form>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}

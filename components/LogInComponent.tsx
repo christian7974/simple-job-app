@@ -11,6 +11,7 @@ export default function LogInComponent() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const router = useRouter();
@@ -38,8 +39,9 @@ export default function LogInComponent() {
 
     return (
     <>
-        <h1>Log in component</h1>
-        <form onSubmit={handleLogin}>
+      <h1>Log in component</h1>
+      <button onClick={() => {setShowPassword(!showPassword)}}>{showPassword ? "Hide Password" : "Show Password"}</button>
+      <form onSubmit={handleLogin}>
         <label htmlFor="email">Email:</label>
         <input
           id="email"
@@ -54,7 +56,7 @@ export default function LogInComponent() {
           id="password"
           className="text-black"
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
