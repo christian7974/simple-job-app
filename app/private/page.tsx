@@ -18,14 +18,6 @@ export default async function PrivatePage() {
         id: data.user.id ?? ''
     }
     
-    
-    let { data: applications, error: applicationsError } = await supabase
-    .from('applications')
-    .select('*')
-    if (applicationsError) {
-        console.error("Error fetching applications", applicationsError);
-        return <p>Error fetching applications</p>;
-    }
     return (
         <>
             <ApplicationPageClient user={user} />

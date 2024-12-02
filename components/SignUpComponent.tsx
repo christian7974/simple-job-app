@@ -46,7 +46,7 @@ export default function SignUpComponent() {
             setErrorMessage(result.error);
             setLoading(false);
         } else {
-            router.push("/private");
+            setErrorMessage("Check your email within 10 minutes to confirm your email address.");
         }
     }
 
