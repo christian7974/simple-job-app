@@ -5,7 +5,7 @@ export default function ApplicationTable({ applicationsList }: {applicationsList
     return (
     <div className='flex flex-col overflow-auto'>
         {applicationsList.map((application, num) => (
-            <div key={application.id}>
+            <div key={application.application_id}>
                 <IndividualApplication application={application} numApp={num}/>
             </div>
         ))}

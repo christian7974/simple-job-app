@@ -5,8 +5,8 @@ export interface User {
 
 export interface Application {
     // Define the properties of an application object here
-    id: number,
-    user_id: number,
+    application_id: string,
+    user_id: string,
     company_name: string,
     job_title: string,
     application_date: string,

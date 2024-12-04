@@ -13,7 +13,7 @@ export default function IndividualApplication({application, numApp}: {applicatio
         <ApplicationColumn>{application.status}</ApplicationColumn>
         <ApplicationColumn className="max-[500px]:hidden">{application.notes}</ApplicationColumn>
         <ApplicationColumn>
-            <a href={application.application_link} target="_blank" rel="noreferrer">Link</a>
+        <a href={application.application_link} target="_blank" rel="noopener noreferrer">Link</a>
         </ApplicationColumn>
     </div>)
 }
