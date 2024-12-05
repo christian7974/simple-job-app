@@ -1,17 +1,19 @@
 "use client"
 
 import {useState, useEffect} from "react";
-import { addApplication } from "@/utils/actions";
+import { verifyNewApplication } from "@/utils/actions";
 import { Application } from "@/utils/globalTypes";
-import App from "next/app";
+import { useApplications } from "@/contexts/ApplicationsContext";
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onAddApplication: (newApplication: Application) => void;
   }
 
-export default function AddApplicationModal({isOpen, onClose, onAddApplication}: ModalProps) {
+export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
+
+    const {addApplication} = useApplications();
+
     const [companyName, setCompanyName] = useState("");
     const [positionTitle, setPositionTitle] = useState("");
     const [applicationDate, setApplicationDate] = useState("");
@@ -38,12 +40,12 @@ export default function AddApplicationModal({isOpen, onClose, onAddApplication}:
           positionTitle: positionTitleValid,
           status: statusValid,
         });
-        const result = await addApplication(formData);
+        const result = await verifyNewApplication(formData);
         if (result?.error) {
             setErrorMessage(result.error);
         } else {
             alert("Application added successfully!");
-            onAddApplication(result.data as Application);
+            addApplication(result.data as Application);
             onClose();
         }
     }
