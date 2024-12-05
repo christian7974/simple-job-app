@@ -107,3 +107,19 @@ export async function addApplication(formData: FormData) {
         return {data: newApplicationInfo};
     }
 }
+
+export async function deleteApplication(application_id: string) {
+    const supabase = await createClient();
+    const id = Math.random().toString(36).substring(7);
+    const user = (await supabase.auth.getUser()).data.user;
+    if (!user) {
+        return { error: "User not found" }
+    }
+    const {data, error} = await supabase.from('applications').delete().eq('application_id', application_id).select();
+    console.log(data);
+    if (error) {
+        console.error(error);
+        return;
+    }
+    console.log(`deleted application ${application_id} successfully`);
+}

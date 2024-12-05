@@ -29,6 +29,11 @@ export default function ApplicationPageClient({ user }: { user: User }) {
     function handleAddApplication(newApplication: any) {
         setApplications([...applications, newApplication]);
     }
+
+    function handleDeleteApplication(applicationId: string) { 
+        const updatedApplications = applications.filter((application) => application.application_id !== applicationId);
+        setApplications(updatedApplications);
+    }
     return (
         <div className="flex flex-col p-4 overflow-auto">
             <div className="text-center">
@@ -36,7 +41,7 @@ export default function ApplicationPageClient({ user }: { user: User }) {
                 <button onClick={logout}>Logout</button>
             </div>
             {applications.length > 0 ? (
-                <ApplicationTable applicationsList={applications} />
+                <ApplicationTable applicationsList={applications} onDeleteApplication={handleDeleteApplication} />
             ) : (
                 <p>No applications found.</p>
             )}
