@@ -72,14 +72,13 @@ export async function logout() {
 
 }
 
-export async function verifyNewApplication(formData: FormData) {
+export async function verifyApplication(formData: FormData, inserting: boolean = true) {
     const supabase = await createClient();
-    const id = Math.random().toString(36).substring(7);
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) {
         return { error: "User not found" }
     }
-    const newApplicationInfo: Application = {
+    const newApplication: Application = {
         application_id: uuidv4() as string,
         user_id: user.id,
         company_name: formData.get('companyName') as string,
@@ -89,21 +88,36 @@ export async function verifyNewApplication(formData: FormData) {
         notes: formData.get('applicationNotes') as string,
         application_link: formData.get('applicationLink') as string,
     };
-    if (!newApplicationInfo.company_name) { 
+
+    if (!newApplication.company_name) { 
         return { error: "Company Name is required" };
     }
-    if (!newApplicationInfo.job_title) { 
+    if (!newApplication.job_title) { 
         return { error: "Position Title is required" };
     }
-    if (!newApplicationInfo.status) { 
+    if (!newApplication.status) { 
         return {error: "Status is required" };
     }
+    if (inserting) {
+        return insertApplication(newApplication, supabase);
+    }
+}
 
-    const {data, error} = await supabase.from('applications').insert([newApplicationInfo]);
+export async function insertApplication(newApplication: Application, supabase: any) {
+    const {data, error} = await supabase.from('applications').insert([newApplication]);
     if (error) {
         return { error: error.message }
     } else {
-        return {data: newApplicationInfo};
+        return {data: newApplication};
+    }
+}
+
+export async function updateApplication(newApplication: Application, supabase: any) {
+    const {data, error} = await supabase.from('applications').update(newApplication).eq('application_id', newApplication.application_id).select();
+    if (error) {
+        return { error: error.message }
+    } else {
+        return {data: newApplication};
     }
 }
 

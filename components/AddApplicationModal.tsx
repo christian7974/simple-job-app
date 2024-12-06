@@ -1,7 +1,7 @@
 "use client"
 
 import {useState, useEffect} from "react";
-import { verifyNewApplication } from "@/utils/actions";
+import { insertApplication, verifyApplication } from "@/utils/actions";
 import { Application } from "@/utils/globalTypes";
 import { useApplications } from "@/contexts/ApplicationsContext";
 
@@ -40,12 +40,12 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
           positionTitle: positionTitleValid,
           status: statusValid,
         });
-        const result = await verifyNewApplication(formData);
+        const result = await verifyApplication(formData);
         if (result?.error) {
             setErrorMessage(result.error);
         } else {
             alert("Application added successfully!");
-            addApplication(result.data as Application);
+            addApplication(result?.data as Application);
             onClose();
         }
     }
@@ -131,7 +131,7 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                         value={notes}
                         ></input>
 
-                    <label>Application Link (optional):</label>
+                    <label>Application Link (optional, please include http:// or https://):</label>
                     <input 
                         name="applicationLink"
                         className="mt-1 p-2 border border-gray-300 rounded w-full"
