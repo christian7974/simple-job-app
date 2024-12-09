@@ -1,7 +1,7 @@
 "use client"
 
 import {useState, useEffect} from "react";
-import { insertApplication, verifyApplication } from "@/utils/actions";
+import { verifyApplication } from "@/utils/actions";
 import { Application } from "@/utils/globalTypes";
 import { useApplications } from "@/contexts/ApplicationsContext";
 

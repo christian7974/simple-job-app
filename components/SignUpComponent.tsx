@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { signup } from "@/utils/actions";
 import { isStrongPasword } from "@/utils/signIn";
+import CredentialTextInput from "./CredentialTextInput";
 
 export default function SignUpComponent() {
 
@@ -51,25 +52,24 @@ export default function SignUpComponent() {
     }
 
     return (
-        <>
-            <h1>Sign Up</h1>
-            <button onClick={() => { setShowPassword(!showPassword) }}>{showPassword ? "Hide Password" : "Show Password"}</button>
-            <form onSubmit={handleSignup}>
+        <div className="flex flex-col items-center bg-[#B899FF] w-[80%] rounded-md gap-y-4 py-3">
+            <h2>Sign Up</h2>
+            <button 
+                className="show-password-button bg-[#F1EBFF]"
+                onClick={() => { setShowPassword(!showPassword) }}>{showPassword ? "Hide Password" : "Show Password"}</button>
+            <form onSubmit={handleSignup} className="flex flex-col items-center w-full gap-y-3">
                 <label htmlFor="email">Email:</label>
-                <input
+                <CredentialTextInput 
                     id="email"
-                    className="text-black"
                     name="email"
                     type="email"
-                    required
+                    required={true}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-
                 <label htmlFor="email">Confirm Email:</label>
-                <input
+                <CredentialTextInput
                     id="confirmEmail"
-                    className="text-black"
                     name="confirmEmail"
                     type="email"
                     required
@@ -78,9 +78,8 @@ export default function SignUpComponent() {
                 />
 
                 <label htmlFor="password">Password:</label>
-                <input
+                <CredentialTextInput
                     id="password"
-                    className="text-black"
                     name="password"
                     type={showPassword ? "text" : "password"}
                     required
@@ -88,18 +87,19 @@ export default function SignUpComponent() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <label htmlFor="password">Confirm Password:</label>
-                <input
+                <CredentialTextInput
                     id="confirmPassword"
-                    className="text-black"
                     name="confirmPassword"
                     type={showPassword ? "text" : "password"}
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-                <button type="submit">{loading ? "Signing you up!" : "Sign Up"}</button>
+                <button 
+                    className="submit-button"
+                    type="submit">{loading ? "Signing you up!" : "Sign Up"}</button>
             </form>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-        </>
+        </div>
     )
 }

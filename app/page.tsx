@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import LogInComponent from "@/components/LogInComponent";
 import SignUpComponent from "@/components/SignUpComponent";
@@ -14,10 +14,17 @@ export default function Home() {
     const [loggingIn, setLoggingIn] = useState(true);
 
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <h1>Home Page</h1>
-            <button id="logInOrSignUp" onClick={() => setLoggingIn(!loggingIn)}>{loggingIn ? "Sign Up" : "Log In"}</button>
-            {loggingIn ? <LogInComponent /> : <SignUpComponent />}
+        <div className="flex justify-between px-10">
+            <div className="w-[45%] flex flex-col items-center justify-center gap-y-4">
+                <h1 className="">Home Page</h1>
+                <button 
+                    id="logInOrSignUp" 
+                    className="submit-button"
+                    onClick={() => setLoggingIn(!loggingIn)}>{loggingIn ? "No Account?" : "Existing Account?"}</button>
+            </div>
+            <div className="flex flex-col justify-center items-center gap-y-7 w-[45%] min-h-screen">
+                {loggingIn ? <LogInComponent /> : <SignUpComponent />}
+            </div>
         </div>
     );
 }

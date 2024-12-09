@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { login } from "@/utils/actions";
 import { validEmail } from "@/utils/logIn";
+import CredentialTextInput from "@/components/CredentialTextInput";
 
 export default function LogInComponent() {
 
@@ -38,31 +39,36 @@ export default function LogInComponent() {
     }
 
     return (
-        <>
-            <h1>Log in component</h1>
-            <button onClick={() => { setShowPassword(!showPassword) }}>{showPassword ? "Hide Password" : "Show Password"}</button>
-            <form onSubmit={handleLogin}>
-                <label htmlFor="email">Email:</label>
-                <input
+        <div className="flex flex-col items-center bg-[#E89BAB] w-[80%] rounded-md gap-y-4 py-3">
+            <h2>Log In</h2>
+            <button 
+                className="show-password-button bg-[#FFEBEB]"
+                onClick={() => { setShowPassword(!showPassword) }}>{showPassword ? "Hide Password" : "Show Password"}</button>
+            <form onSubmit={handleLogin} className="flex flex-col items-center w-full gap-y-3">
+                <label className="label-credential" htmlFor="email">Email:</label>
+                <CredentialTextInput 
                     id="email"
-                    className="text-black"
                     name="email"
-                    required
+                    required={true}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    type="text"
                 />
                 <label htmlFor="password">Password:</label>
-                <input
+                <CredentialTextInput 
                     id="password"
-                    className="text-black"
                     name="password"
-                    type={showPassword ? "text" : "password"}
-                    required
+                    required={true}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit" disabled={loading}>{loading ? "Logging In..." : "Log In"}</button>
+                    type={showPassword ? "text" : "password"}
+                    />
+                
+                <button 
+                    type="submit" 
+                    className="submit-button"
+                    disabled={loading}>{loading ? "Logging In..." : "Log In"}</button>
             </form>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-        </>)
+        </div>)
 }   

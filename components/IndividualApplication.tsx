@@ -84,7 +84,7 @@ export default function IndividualApplication({application, numApp, onDeleteAppl
                 fieldInDB='notes' 
                 className="max-[500px]:hidden" 
                 applicationIdToChange={application.application_id}>
-                    {application.notes || "here"}</ApplicationColumn>
+                    {application.notes || "No Note"}</ApplicationColumn>
             <ApplicationColumn 
                 fieldInDB='application_link' 
                 applicationIdToChange={application.application_id}>
