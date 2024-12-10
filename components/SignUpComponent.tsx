@@ -56,7 +56,7 @@ export default function SignUpComponent() {
             <h2>Sign Up</h2>
             <button 
                 className="show-password-button bg-[#F1EBFF]"
-                onClick={() => { setShowPassword(!showPassword) }}>{showPassword ? "Hide Password" : "Show Password"}</button>
+                onClick={() => { setShowPassword(!showPassword) }}>{showPassword ? "Hide Passwords" : "Show Passwords"}</button>
             <form onSubmit={handleSignup} className="flex flex-col items-center w-full gap-y-3">
                 <label htmlFor="email">Email:</label>
                 <CredentialTextInput 
@@ -99,7 +99,10 @@ export default function SignUpComponent() {
                     className="submit-button"
                     type="submit">{loading ? "Signing you up!" : "Sign Up"}</button>
             </form>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {errorMessage && 
+                <div className="credential-error-message">
+                    <p>{errorMessage}</p>
+                </div>}
         </div>
     )
 }

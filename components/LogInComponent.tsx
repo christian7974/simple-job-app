@@ -25,12 +25,13 @@ export default function LogInComponent() {
         const result = await login(formData);
 
         if (!validEmail(email)) {
-            setErrorMessage("Invalid email");
+            setErrorMessage("Invalid email - please enter a valid email");
             setLoading(false);
             return;
         }
 
         if (result.error) {
+            console.log(result);
             setErrorMessage(result.error);
             setLoading(false);
         } else {
@@ -69,6 +70,9 @@ export default function LogInComponent() {
                     className="submit-button"
                     disabled={loading}>{loading ? "Logging In..." : "Log In"}</button>
             </form>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {errorMessage && 
+                <div className="credential-error-message">
+                    <p>{errorMessage}</p>
+                </div>}
         </div>)
 }   

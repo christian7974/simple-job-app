@@ -20,14 +20,21 @@ export function useApplications() {
 }
 
 export function ApplicationsProvider({children}: {children: React.ReactNode}) { 
-    const [applications, setApplications] = useState<Application[]>([]);
+    const [applications, setApplicationState] = useState<Application[]>([]);
+
+    function setApplications(applications: Application[]) { 
+        const sortedApplications = applications.sort((a, b) => a.application_date > b.application_date ? 1 : -1);
+        setApplicationState(sortedApplications);
+    }
+
     function addApplication(newApplication: Application) {
         setApplications([...applications, newApplication]);
     }
     async function removeApplication(applicationId: string) {
         await deleteApplicationBackend(applicationId);
-        setApplications((prevApplications) => prevApplications.filter(app => app.application_id !== applicationId));
+        setApplications(applications.filter(app => app.application_id !== applicationId));
     }
+
     return (
         <ApplicationsContext.Provider value={{applications, addApplication, removeApplication, setApplications}}>
             {children}

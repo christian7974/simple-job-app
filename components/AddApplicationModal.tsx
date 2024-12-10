@@ -84,11 +84,8 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
         return null;
     }
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
             <div className="bg-red-100 p-4 rounded shadow-lg max-w-md w-full text-black">
-                <button className="absolute top-2 right-2 text-white" onClick={onClose}>
-                    Close
-                </button>
                 <form className="flex flex-col" onSubmit={handleNewApplication}>
                     <label className="">Company Name:</label>
                     <input name="companyName" 
@@ -138,10 +135,18 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                         onChange={(e) => setApplicationLink(e.target.value)}
                         value={applicationLink}
                         ></input>
-
-                    <button type="submit">All set</button>
+                    <div className="flex mx-auto gap-x-11 mt-2">
+                        <button type="submit" className="submit-button">All set</button>
+                        <button className="rounded text-base submit-button" onClick={onClose}>
+                            Close
+                        </button>
+                    </div>
                 </form>
-                {errorMessage && <p>{errorMessage}</p>}
+                {errorMessage && 
+                <div className="credential-error-message !bg-[#FBB874]">
+                    <p className="!text-[#FF0800] text-lg">{errorMessage}</p>
+                </div>
+                }
             </div>
         </div>)
 }

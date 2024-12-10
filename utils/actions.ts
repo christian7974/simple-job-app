@@ -123,7 +123,6 @@ export async function updateApplication(newApplication: Application, supabase: a
 
 export async function deleteApplicationBackend(application_id: string) {
     const supabase = await createClient();
-    const id = Math.random().toString(36).substring(7);
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) {
         return { error: "User not found" }

@@ -41,3 +41,11 @@ input {
 .show-password-button {
     @apply text-base rounded-md p-2 hover:bg-[#E5E4E2] active:bg-[#C5C3BE] w-fit drop-shadow-md;
 }
+
+.credential-error-message {
+    @apply flex flex-col items-center gap-y-2 bg-[#FDD9B5] px-5 py-2 rounded-md;
+}
+
+.credential-error-message p {
+    @apply text-[#FF0800] text-lg;
+}
