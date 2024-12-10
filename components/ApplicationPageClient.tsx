@@ -21,6 +21,14 @@ function ApplicationPageClientContext({user}: {user: User}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
+        window.addEventListener("keydown", (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+                setIsModalOpen(true);
+            }
+        })
+    })
+
+    useEffect(() => {
         async function fetchApplications() {
             const supabase = await createClient();
             const { data, error } = await supabase.from('applications').select('*').eq('user_id', user.id);
@@ -35,10 +43,10 @@ function ApplicationPageClientContext({user}: {user: User}) {
     }, [user.id, setApplications]);
 
     return (
-        <div className="flex flex-col p-4 overflow-auto">
-          <div className="text-center">
-            <h1>{user.email}'s Applications</h1>
-            <button onClick={logout}>Logout</button>
+        <div className="flex flex-col p-4 overflow-auto gap-y-4">
+          <div className="flex flex-row justify-between">
+            <h2>{user.email}'s Applications</h2>
+            <button className="submit-button" onClick={logout}>Logout</button>
           </div>
           {applications.length > 0 ? (
             <ApplicationTable />
@@ -46,7 +54,9 @@ function ApplicationPageClientContext({user}: {user: User}) {
             <p>No applications found.</p>
           )}
           <div className="text-center">
-            <button onClick={() => setIsModalOpen(true)}>Add New Application</button>
+            <button 
+                className="submit-button"
+                onClick={() => setIsModalOpen(true)}>Add New Application</button>
           </div>
           <AddApplicationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>

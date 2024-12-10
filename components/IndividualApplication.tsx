@@ -49,13 +49,14 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
           {isTextBox && !cannotEdit ? (
             <form onSubmit={handleUpdateApplication}>
               <input 
+                className='text-xl w-2/3'
                 type={fieldInDB === "application_date" ? "date" : "text"} 
                 defaultValue={children as string}
                 />
-              <button type="submit">Save</button>
+              {fieldInDB === "application_date" && <button type="submit">Save</button>}
             </form>
           ) : (
-            children
+            <p className='text-xl'>{children}</p>
           )}
         </div>
       );
@@ -63,7 +64,7 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
 
 export default function IndividualApplication({application, numApp, onDeleteApplication}: {application: Application, numApp: number, onDeleteApplication: (applicationId: string) => void}) {
     return (
-        <div className={`flex gap-3 items-center mb-2 text-black w-full ${numApp % 2 === 0 ? "bg-blue-300" : "bg-slate-400"}`}>
+        <div className={`flex items-center px-1 py-1 ${numApp % 2 === 0 ? "bg-[#F0F5FF]" : "bg-[#F0F8F0]"} rounded-md`}>
             <ApplicationColumn 
                 fieldInDB='company_name' 
                 applicationIdToChange={application.application_id}>
@@ -88,15 +89,19 @@ export default function IndividualApplication({application, numApp, onDeleteAppl
             <ApplicationColumn 
                 fieldInDB='application_link' 
                 applicationIdToChange={application.application_id}>
-                    {application.application_link}
+                    {application.application_link || " "}
             </ApplicationColumn>
-            <ApplicationColumn applicationIdToChange={application.application_id} cannotEdit={true}>
+            <ApplicationColumn 
+                applicationIdToChange={application.application_id} cannotEdit={true}>
                 <a href={application.application_link} target="_blank" rel="noopener noreferrer">Link to Application</a>
             </ApplicationColumn>
-
             {/* Eventually, change this to an image of X that will appear only when hovered over */}
-            <ApplicationColumn cannotEdit={true}>
-                <button onClick={() => onDeleteApplication(application.application_id)}>Delete</button>
-            </ApplicationColumn>
+            <div>
+                <ApplicationColumn cannotEdit={true}>
+                    <button 
+                        onClick={() => onDeleteApplication(application.application_id)}>Delete</button>
+                </ApplicationColumn>
+            </div>
+            
         </div>)
 }

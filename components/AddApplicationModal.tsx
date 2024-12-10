@@ -44,7 +44,6 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
         if (result?.error) {
             setErrorMessage(result.error);
         } else {
-            alert("Application added successfully!");
             addApplication(result?.data as Application);
             onClose();
         }
@@ -93,7 +92,8 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                 <form className="flex flex-col" onSubmit={handleNewApplication}>
                     <label className="">Company Name:</label>
                     <input name="companyName" 
-                        className={`mt-1 p-2 border ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} rounded w-full`}
+                        autoFocus
+                        className={`mt-1 p-2 border  ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} rounded w-full`}
                         onChange={(e) => setCompanyName(e.target.value)}
                         value={companyName}
                         ></input>
