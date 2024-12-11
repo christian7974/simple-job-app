@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Application } from '@/utils/globalTypes';
 import { createClient } from '@/utils/supabase/client';
 import { useApplications } from '@/contexts/ApplicationsContext';
-
+import newWindowIcon from '@/public/new_window.svg';
 function ApplicationColumn({children, className, fieldInDB, applicationIdToChange, cannotEdit=false} : {children: React.ReactNode, className?:string, fieldInDB?: string, applicationIdToChange?: string, cannotEdit?:boolean}) { 
     const [isTextBox, setIsTextBox] = useState(false);
     const {applications, setApplications} = useApplications();
@@ -21,9 +21,16 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
         }
 
         if (!inputValue && (fieldInDB=== "company_name" || fieldInDB === "job_title" || fieldInDB ==="status")) {
-            alert("Please enter a value");
+            confirm("Please enter a value");
             return;
         }
+
+        if (inputValue && fieldInDB === "application_link" && !inputValue?.startsWith('http://') && !inputValue?.startsWith('https://')) {
+            alert("Please enter a valid URL beginning with http:// or https://");
+            return;
+
+        }
+
         const supabase = createClient();
         const {error} = await supabase
             .from('applications')
@@ -51,7 +58,7 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
               <input 
                 className='text-xl w-2/3'
                 type={fieldInDB === "application_date" ? "date" : "text"} 
-                defaultValue={children as string}
+                defaultValue={typeof children === 'object' ? "" : children as string}
                 />
               {fieldInDB === "application_date" && <button type="submit">Save</button>}
             </form>
@@ -85,15 +92,28 @@ export default function IndividualApplication({application, numApp, onDeleteAppl
                 fieldInDB='notes' 
                 className="max-[500px]:hidden" 
                 applicationIdToChange={application.application_id}>
-                    {application.notes || "No Note"}</ApplicationColumn>
+                    {application.notes || (
+                        <img 
+                            src="/edit_field.svg"
+                            alt="No Note"
+                            className='w-6 h-6'
+                        />
+                        )}
+            </ApplicationColumn> 
             <ApplicationColumn 
                 fieldInDB='application_link' 
                 applicationIdToChange={application.application_id}>
-                    {application.application_link || " "}
+                    {application.application_link || "No Link"}
             </ApplicationColumn>
             <ApplicationColumn 
                 applicationIdToChange={application.application_id} cannotEdit={true}>
-                <a href={application.application_link} target="_blank" rel="noopener noreferrer">Link to Application</a>
+                {/* Change the V to an svg to go to a new window */}
+                {application.application_link && <a href={application.application_link} target="_blank" rel="noopener noreferrer">
+                    <img 
+                        src="/new_window.svg"
+                        className='w-6 h-6'
+                        />
+                    </a>}
             </ApplicationColumn>
             {/* Eventually, change this to an image of X that will appear only when hovered over */}
             <div>

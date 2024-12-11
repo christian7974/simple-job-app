@@ -86,7 +86,7 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
             <div className="bg-red-100 p-4 rounded shadow-lg max-w-md w-full text-black">
-                <form className="flex flex-col" onSubmit={handleNewApplication}>
+                <form className="flex flex-col mb-2" onSubmit={handleNewApplication}>
                     <label className="">Company Name:</label>
                     <input name="companyName" 
                         autoFocus

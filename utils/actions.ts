@@ -98,6 +98,9 @@ export async function verifyApplication(formData: FormData, inserting: boolean =
     if (!newApplication.status) { 
         return {error: "Status is required" };
     }
+    if (newApplication.application_link && (!newApplication.application_link.startsWith('http://') && !newApplication.application_link.startsWith('https://'))) { 
+        return { error: "Application Link must start with http://" };
+    }
     if (inserting) {
         return insertApplication(newApplication, supabase);
     }
