@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Application } from '@/utils/globalTypes';
 import { createClient } from '@/utils/supabase/client';
 import { useApplications } from '@/contexts/ApplicationsContext';
-import newWindowIcon from '@/public/new_window.svg';
 function ApplicationColumn({children, className, fieldInDB, applicationIdToChange, cannotEdit=false} : {children: React.ReactNode, className?:string, fieldInDB?: string, applicationIdToChange?: string, cannotEdit?:boolean}) { 
     const [isTextBox, setIsTextBox] = useState(false);
     const {applications, setApplications} = useApplications();
@@ -10,7 +9,7 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
     async function handleUpdateApplication(event: any) {
         event.preventDefault();
 
-        const inputValue = (event.target as HTMLFormElement).querySelector('input')?.value;
+        var inputValue = (event.target as HTMLFormElement).querySelector('input')?.value;
 
         if (fieldInDB === "application_date" && inputValue) {
             const inputValueAsDate = new Date(inputValue);
@@ -20,10 +19,14 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
             }
         }
 
-        if (!inputValue && (fieldInDB=== "company_name" || fieldInDB === "job_title" || fieldInDB ==="status")) {
-            confirm("Please enter a value");
+        if (!inputValue && (fieldInDB === "company_name" || fieldInDB === "job_title" || fieldInDB ==="status")) {
+            alert("Please enter a value");
             return;
         }
+
+        if (!inputValue && fieldInDB === "application_date") { 
+            inputValue = new Date().toLocaleDateString();
+        } 
 
         if (inputValue && fieldInDB === "application_link" && !inputValue?.startsWith('http://') && !inputValue?.startsWith('https://')) {
             alert("Please enter a valid URL beginning with http:// or https://");
@@ -34,11 +37,11 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
         const supabase = createClient();
         const {error} = await supabase
             .from('applications')
-            .update({[fieldInDB as string]: (document.querySelector('input') as HTMLInputElement).value})
+            .update({[fieldInDB as string]: inputValue})
             .eq('application_id', applicationIdToChange as string);
         
         if (error) {
-            alert(error);
+            alert(error.message);
             return;
         }
         const newApplications = applications.map((application) => {
