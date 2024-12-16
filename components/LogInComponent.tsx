@@ -40,7 +40,7 @@ export default function LogInComponent() {
     }
 
     return (
-        <div className="flex flex-col items-center bg-[#E89BAB] w-[80%] rounded-md gap-y-4 py-3">
+        <div className="flex flex-col items-center bg-[#E89BAB] w-[80%] max-[600px]:w-[90%] rounded-md gap-y-4 py-3">
             <h2>Log In</h2>
             <button 
                 className="show-password-button bg-[#FFEBEB]"

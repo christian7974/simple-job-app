@@ -11,6 +11,5 @@ export default function ApplicationTable() {
                     <IndividualApplication application={application} numApp={num} onDeleteApplication={removeApplication}/>
                 </div>
             ))}
-
         </div>)
 }
