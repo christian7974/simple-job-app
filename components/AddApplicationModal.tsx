@@ -22,6 +22,8 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
     const [applicationLink, setApplicationLink] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+    const inputStyle = "mt-1 p-2 border rounded w-full"
+
     const [validInputs, setValidInputs] = useState({
         companyName: true,
         positionTitle: true,
@@ -77,8 +79,9 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
             window.addEventListener("keydown", handleKeyDown);
         } else {
             window.removeEventListener("keydown", handleKeyDown);
+        
         }
-    })
+    });
 
     if (!isOpen) {
         return null;
@@ -90,7 +93,7 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                     <label className="">Company Name:</label>
                     <input name="companyName" 
                         autoFocus
-                        className={`mt-1 p-2 border  ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} rounded w-full`}
+                        className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
                         onChange={(e) => setCompanyName(e.target.value)}
                         value={companyName}
                         ></input>
@@ -98,7 +101,7 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                     <label>Position Title:</label>
                     <input 
                         name="positionTitle"
-                        className={`mt-1 p-2 border ${validInputs.positionTitle ? 'border-gray-300' : 'border-red-500'} rounded w-full`}
+                        className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
                         onChange={(e) => setPositionTitle(e.target.value)}
                         value={positionTitle}
                         ></input>
@@ -106,7 +109,7 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                     <label>Application Date (will default to {new Date().toLocaleDateString()}):</label>
                     <input 
                         name="applicationDate"
-                        className="mt-1 p-2 border border-gray-300 rounded w-full"
+                        className={`${inputStyle} border-gray-300`}
                         onChange={(e) => setApplicationDate(e.target.value)}
                         type="date"
                         value={applicationDate}
@@ -115,7 +118,7 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                     <label>Status:</label>
                     <input 
                         name="status"
-                        className={`mt-1 p-2 border ${validInputs.status ? 'border-gray-300' : 'border-red-500'} rounded w-full`}
+                        className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
                         onChange={(e) => setStatus(e.target.value)}
                         value={status}
                         ></input>
@@ -123,7 +126,7 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                     <label>Notes:</label>
                     <input 
                         name="applicationNotes"
-                        className="mt-1 p-2 border border-gray-300 rounded w-full"
+                        className={`${inputStyle} border-gray-300`}
                         onChange={(e) => setNotes(e.target.value)}
                         value={notes}
                         ></input>
@@ -131,7 +134,7 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
                     <label>Application Link (optional, please include http:// or https://):</label>
                     <input 
                         name="applicationLink"
-                        className="mt-1 p-2 border border-gray-300 rounded w-full"
+                        className={`${inputStyle} border-gray-300`}
                         onChange={(e) => setApplicationLink(e.target.value)}
                         value={applicationLink}
                         ></input>

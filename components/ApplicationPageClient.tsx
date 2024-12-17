@@ -30,8 +30,13 @@ function ApplicationPageClientContext({user}: {user: User}) {
 
     useEffect(() => {
         async function fetchApplications() {
+            console.log("fetching applications");
             const supabase = await createClient();
             const { data, error } = await supabase.from('applications').select('*').eq('user_id', user.id);
+            data?.sort((a, b) => a.application_date > b.application_date ? 1 : -1);
+            if (data) {
+                console.log(data[0].application_date);
+            }
             if (error) {
                 console.error(error);
                 return;
@@ -40,12 +45,12 @@ function ApplicationPageClientContext({user}: {user: User}) {
             setApplications(data);
         }
         fetchApplications();
-    }, [user.id, setApplications]);
+    }, []);
 
     return (
-        <div className="flex flex-col p-4 overflow-auto gap-y-4">
+        <div className="flex flex-col p-4 gap-y-4 overflow-auto">
           <div className="flex flex-row justify-between">
-            <h2>{user.email}'s Applications</h2>
+            <h2 className="max-[700px]:text-3xl">{user.email}'s Applications</h2>
             <button className="submit-button" onClick={logout}>Logout</button>
           </div>
           {applications.length > 0 ? (

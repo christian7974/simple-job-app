@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Application } from '@/utils/globalTypes';
 import { createClient } from '@/utils/supabase/client';
 import { useApplications } from '@/contexts/ApplicationsContext';
+
 function ApplicationColumn({children, className, fieldInDB, applicationIdToChange, cannotEdit=false} : {children: React.ReactNode, className?:string, fieldInDB?: string, applicationIdToChange?: string, cannotEdit?:boolean}) { 
     const [isTextBox, setIsTextBox] = useState(false);
     const {applications, setApplications} = useApplications();
@@ -73,27 +74,30 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
 }
 
 export default function IndividualApplication({application, numApp, onDeleteApplication}: {application: Application, numApp: number, onDeleteApplication: (applicationId: string) => void}) {
+    const applicationDate = new Date(application.application_date);
     return (
         <div className={`flex items-center px-1 py-1 ${numApp % 2 === 0 ? "bg-[#F0F5FF]" : "bg-[#F0F8F0]"} rounded-md`}>
             <ApplicationColumn 
                 fieldInDB='company_name' 
+                className=' overflow-hidden'
                 applicationIdToChange={application.application_id}>
                     {application.company_name}</ApplicationColumn>
             <ApplicationColumn 
                 fieldInDB='job_title' 
+                className=''
                 applicationIdToChange={application.application_id}>
                     {application.job_title}</ApplicationColumn>
             <ApplicationColumn 
                 fieldInDB='application_date' 
                 applicationIdToChange={application.application_id}>
-                    {application.application_date.slice(5).replace('-', '/')}</ApplicationColumn>
+                    {`${(applicationDate.getMonth() + 1).toString().padStart(2, '0')}/${applicationDate.getDate().toString().padStart(2, '0')}`}</ApplicationColumn>
             <ApplicationColumn 
                 fieldInDB='status' 
                 applicationIdToChange={application.application_id}>
                     {application.status}</ApplicationColumn>
             <ApplicationColumn 
                 fieldInDB='notes' 
-                className="max-[500px]:hidden" 
+                className="max-[700px]:hidden" 
                 applicationIdToChange={application.application_id}>
                     {application.notes || (
                         <img 
@@ -105,8 +109,15 @@ export default function IndividualApplication({application, numApp, onDeleteAppl
             </ApplicationColumn> 
             <ApplicationColumn 
                 fieldInDB='application_link' 
+                className="max-[900px]:hidden overflow-hidden" 
                 applicationIdToChange={application.application_id}>
-                    {application.application_link || "No Link"}
+                    {application.application_link || (
+                        <img 
+                            src="/edit_field.svg"
+                            alt="No Note"
+                            className='w-6 h-6'
+                        />
+                        )}
             </ApplicationColumn>
             <ApplicationColumn 
                 applicationIdToChange={application.application_id} cannotEdit={true}>
