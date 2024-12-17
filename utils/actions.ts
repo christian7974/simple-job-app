@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server'
 import { isStrongPasword } from '@/utils/signIn';
 import { Application } from './globalTypes';
+import { format } from 'path';
 
 export async function signup(formData: FormData) {
     const supabase = await createClient();
@@ -78,27 +79,37 @@ export async function verifyApplication(formData: FormData, inserting: boolean =
     if (!user) {
         return { error: "User not found" }
     }
+    const applicationDate = formData.get('applicationDate') as string;
+    let formattedDate: string | Date = applicationDate;
+
+    if (applicationDate) {
+        const date = new Date(applicationDate);
+        date.setDate(date.getDate() + 1);
+        formattedDate = date.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
+    } else {
+        formattedDate = new Date();
+    }
     const newApplication: Application = {
         application_id: uuidv4() as string,
         user_id: user.id,
         company_name: formData.get('companyName') as string,
         job_title: formData.get('positionTitle') as string,
-        application_date: formData.get('applicationDate') as string || new Date().toISOString(),
+        application_date: formattedDate as string,
         status: formData.get('status') as string,
         notes: formData.get('applicationNotes') as string,
         application_link: formData.get('applicationLink') as string,
     };
 
-    if (!newApplication.company_name) { 
+    if (!newApplication.company_name) {
         return { error: "Company Name is required" };
     }
-    if (!newApplication.job_title) { 
+    if (!newApplication.job_title) {
         return { error: "Position Title is required" };
     }
-    if (!newApplication.status) { 
-        return {error: "Status is required" };
+    if (!newApplication.status) {
+        return { error: "Status is required" };
     }
-    if (newApplication.application_link && (!newApplication.application_link.startsWith('http://') && !newApplication.application_link.startsWith('https://'))) { 
+    if (newApplication.application_link && (!newApplication.application_link.startsWith('http://') && !newApplication.application_link.startsWith('https://'))) {
         return { error: "Application Link must start with http://" };
     }
     if (inserting) {
@@ -107,20 +118,20 @@ export async function verifyApplication(formData: FormData, inserting: boolean =
 }
 
 export async function insertApplication(newApplication: Application, supabase: any) {
-    const {data, error} = await supabase.from('applications').insert([newApplication]);
+    const { data, error } = await supabase.from('applications').insert([newApplication]);
     if (error) {
         return { error: error.message }
     } else {
-        return {data: newApplication};
+        return { data: newApplication };
     }
 }
 
 export async function updateApplication(newApplication: Application, supabase: any) {
-    const {data, error} = await supabase.from('applications').update(newApplication).eq('application_id', newApplication.application_id).select();
+    const { data, error } = await supabase.from('applications').update(newApplication).eq('application_id', newApplication.application_id).select();
     if (error) {
         return { error: error.message }
     } else {
-        return {data: newApplication};
+        return { data: newApplication };
     }
 }
 
@@ -130,7 +141,7 @@ export async function deleteApplicationBackend(application_id: string) {
     if (!user) {
         return { error: "User not found" }
     }
-    const {data, error} = await supabase.from('applications').delete().eq('application_id', application_id).select();
+    const { data, error } = await supabase.from('applications').delete().eq('application_id', application_id).select();
     if (error) {
         console.error(error);
         return;

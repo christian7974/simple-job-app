@@ -23,7 +23,7 @@ export function ApplicationsProvider({children}: {children: React.ReactNode}) {
     const [applications, setApplicationState] = useState<Application[]>([]);
 
     function setApplications(applications: Application[]) { 
-        const sortedApplications = applications.sort((a, b) => a.application_date > b.application_date ? 1 : -1);
+        const sortedApplications = applications.sort((a, b) => a.application_date >= b.application_date ? 1 : -1);
         setApplicationState(sortedApplications);
     }
 

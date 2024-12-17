@@ -14,10 +14,12 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
 
         if (fieldInDB === "application_date" && inputValue) {
             const inputValueAsDate = new Date(inputValue);
+            inputValueAsDate.setDate(inputValueAsDate.getDate() + 1);
             if (inputValueAsDate > new Date()) {
                 alert(`Please enter a date that is on or before ${new Date().toLocaleDateString()} `);
                 return;
             }
+            inputValue = inputValueAsDate.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
         }
 
         if (!inputValue && (fieldInDB === "company_name" || fieldInDB === "job_title" || fieldInDB ==="status")) {
