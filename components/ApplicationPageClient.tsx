@@ -49,8 +49,8 @@ function ApplicationPageClientContext({user}: {user: User}) {
 
     return (
         <div className="flex flex-col p-4 gap-y-4 overflow-auto">
-          <div className="flex flex-row justify-between">
-            <h2 className="max-[700px]:text-3xl">{user.email}'s Applications</h2>
+          <div className="flex lg:flex-row flex-col justify-between items-center text-center">
+            <h2 className="max-[700px]:text-2xl">{user.email}'s Applications</h2>
             <button className="submit-button" onClick={logout}>Logout</button>
           </div>
           {applications.length > 0 ? (

@@ -56,7 +56,7 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
     }
 
     return (
-        <div className={`flex-1 ${className}`} onClick={() => !cannotEdit && setIsTextBox(true)}>
+        <div className={`flex-1 ${className} overflow-hidden`} onClick={() => !cannotEdit && setIsTextBox(true)}>
           {isTextBox && !cannotEdit ? (
             <form onSubmit={handleUpdateApplication}>
               <input 
@@ -67,7 +67,7 @@ function ApplicationColumn({children, className, fieldInDB, applicationIdToChang
               {fieldInDB === "application_date" && <button type="submit">Save</button>}
             </form>
           ) : (
-            <p className='text-xl'>{children}</p>
+            <p className='text-lg lg:text-2xl'>{children}</p>
           )}
         </div>
       );
@@ -93,6 +93,7 @@ export default function IndividualApplication({application, numApp, onDeleteAppl
                     {`${(applicationDate.getMonth() + 1).toString().padStart(2, '0')}/${applicationDate.getDate().toString().padStart(2, '0')}`}</ApplicationColumn>
             <ApplicationColumn 
                 fieldInDB='status' 
+                className="max-[700px]:hidden"
                 applicationIdToChange={application.application_id}>
                     {application.status}</ApplicationColumn>
             <ApplicationColumn 
@@ -109,7 +110,7 @@ export default function IndividualApplication({application, numApp, onDeleteAppl
             </ApplicationColumn> 
             <ApplicationColumn 
                 fieldInDB='application_link' 
-                className="max-[900px]:hidden overflow-hidden" 
+                className="max-[1025px]:hidden overflow-hidden" 
                 applicationIdToChange={application.application_id}>
                     {application.application_link || (
                         <img 

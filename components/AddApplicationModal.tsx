@@ -22,7 +22,8 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
     const [applicationLink, setApplicationLink] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const inputStyle = "mt-1 p-2 border rounded w-full"
+    const inputStyle = "mt-1 lg:p-2 p-1 border rounded w-full lg:text-lg text-xl";
+    const labelStyle = "text-lg lg:text-2xl";
 
     const [validInputs, setValidInputs] = useState({
         companyName: true,
@@ -90,57 +91,64 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
             <div className="bg-red-100 p-4 rounded shadow-lg max-w-md w-full text-black">
                 <form className="flex flex-col mb-2" onSubmit={handleNewApplication}>
-                    <label className="">Company Name:</label>
-                    <input name="companyName" 
-                        autoFocus
-                        className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        value={companyName}
-                        ></input>
-
-                    <label>Position Title:</label>
-                    <input 
-                        name="positionTitle"
-                        className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
-                        onChange={(e) => setPositionTitle(e.target.value)}
-                        value={positionTitle}
-                        ></input>
-
-                    <label>Application Date (will default to {new Date().toLocaleDateString()}):</label>
-                    <input 
-                        name="applicationDate"
-                        className={`${inputStyle} border-gray-300`}
-                        onChange={(e) => setApplicationDate(e.target.value)}
-                        type="date"
-                        value={applicationDate}
-                        ></input>
-
-                    <label>Status:</label>
-                    <input 
-                        name="status"
-                        className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
-                        onChange={(e) => setStatus(e.target.value)}
-                        value={status}
-                        ></input>
-
-                    <label>Notes:</label>
-                    <input 
-                        name="applicationNotes"
-                        className={`${inputStyle} border-gray-300`}
-                        onChange={(e) => setNotes(e.target.value)}
-                        value={notes}
-                        ></input>
-
-                    <label>Application Link (optional, please include http:// or https://):</label>
-                    <input 
-                        name="applicationLink"
-                        className={`${inputStyle} border-gray-300`}
-                        onChange={(e) => setApplicationLink(e.target.value)}
-                        value={applicationLink}
-                        ></input>
-                    <div className="flex mx-auto gap-x-11 mt-2">
-                        <button type="submit" className="submit-button">All set</button>
-                        <button className="rounded text-base submit-button" onClick={onClose}>
+                    <div>
+                        <label className={`${labelStyle}`}>Company Name:</label>
+                        <input name="companyName" 
+                            autoFocus
+                            className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                            value={companyName}
+                            ></input>
+                    </div>
+                    <div>
+                        <label className={`${labelStyle}`}>Position Title:</label>
+                        <input 
+                            name="positionTitle"
+                            className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
+                            onChange={(e) => setPositionTitle(e.target.value)}
+                            value={positionTitle}
+                            ></input>
+                    </div>
+                    <div>
+                        <label className={`${labelStyle}`}>Application Date (will default to {new Date().toLocaleDateString()}):</label>
+                        <input 
+                            name="applicationDate"
+                            className={`${inputStyle} border-gray-300`}
+                            onChange={(e) => setApplicationDate(e.target.value)}
+                            type="date"
+                            value={applicationDate}
+                            ></input>
+                    </div>
+                    <div>
+                        <label className={`${labelStyle}`}>Status:</label>
+                        <input 
+                            name="status"
+                            className={`${inputStyle} ${validInputs.companyName ? 'border-gray-300' : 'border-red-500'} `}
+                            onChange={(e) => setStatus(e.target.value)}
+                            value={status}
+                            ></input>
+                    </div>
+                    <div>
+                        <label className={`${labelStyle}`}>Notes:</label>
+                        <input 
+                            name="applicationNotes"
+                            className={`${inputStyle} border-gray-300`}
+                            onChange={(e) => setNotes(e.target.value)}
+                            value={notes}
+                            ></input>
+                    </div>
+                    <div>
+                        <label className={`${labelStyle}`}>Application Link:</label>
+                        <input 
+                            name="applicationLink"
+                            className={`${inputStyle} border-gray-300`}
+                            onChange={(e) => setApplicationLink(e.target.value)}
+                            value={applicationLink}
+                            ></input>
+                    </div>
+                    <div className="flex mx-auto gap-x-11 mt-2 row-auto">
+                        <button type="submit" className="submit-button !h-fit">All set</button>
+                        <button className="submit-button !h-fit" onClick={onClose}>
                             Close
                         </button>
                     </div>
