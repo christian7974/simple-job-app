@@ -79,16 +79,10 @@ export async function verifyApplication(formData: FormData, inserting: boolean =
     if (!user) {
         return { error: "User not found" }
     }
-    const applicationDate = formData.get('applicationDate') as string;
-    let formattedDate: string | Date = applicationDate;
+    
+    const applicationDate = formData.get('applicationDate') as string || new Date().toISOString().split('T')[0];
+    const formattedDate = new Date(applicationDate).toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
 
-    if (applicationDate) {
-        const date = new Date(applicationDate);
-        date.setDate(date.getDate() + 1);
-        formattedDate = date.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
-    } else {
-        formattedDate = new Date();
-    }
     const newApplication: Application = {
         application_id: uuidv4() as string,
         user_id: user.id,

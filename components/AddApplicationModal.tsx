@@ -37,7 +37,11 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
         const companyNameValid = !!formData.get('companyName');
         const positionTitleValid = !!formData.get('positionTitle');
         const statusValid = !!formData.get('status');
-        
+        if (formData.get('applicationDate') && new Date(formData.get('applicationDate') as string) > new Date()) {
+            setErrorMessage(`Please enter a date that is on or before ${new Date().toLocaleDateString()} `);
+            return;
+        }
+        console.log(formData.get('applicationDate'));
         setValidInputs({
           companyName: companyNameValid,
           positionTitle: positionTitleValid,

@@ -16,7 +16,7 @@ function ApplicationColumn({ children, className, fieldInDB, applicationIdToChan
 
         if (fieldInDB === "application_date" && inputValue) {
             const inputValueAsDate = new Date(inputValue);
-            inputValueAsDate.setDate(inputValueAsDate.getDate() + 1);
+            // inputValueAsDate.setDate(inputValueAsDate.getDate());
             if (inputValueAsDate > new Date()) {
                 alert(`Please enter a date that is on or before ${new Date().toLocaleDateString()} `);
                 return;
@@ -30,7 +30,7 @@ function ApplicationColumn({ children, className, fieldInDB, applicationIdToChan
         }
 
         if (!inputValue && fieldInDB === "application_date") {
-            inputValue = new Date().toLocaleDateString();
+            inputValue = new Date().toISOString().split('T')[0]
         }
 
         if (inputValue && fieldInDB === "application_link" && !inputValue?.startsWith('http://') && !inputValue?.startsWith('https://')) {
@@ -95,7 +95,7 @@ export default function IndividualApplication({ application, numApp, onDeleteApp
             <ApplicationColumn
                 fieldInDB='application_date'
                 applicationIdToChange={application.application_id}>
-                {`${(applicationDate.getMonth() + 1).toString().padStart(2, '0')}/${applicationDate.getDate().toString().padStart(2, '0')}`}</ApplicationColumn>
+                {application.application_date.toString()}</ApplicationColumn>
             <ApplicationColumn
                 fieldInDB='status'
                 className="max-[700px]:hidden"
@@ -139,7 +139,8 @@ export default function IndividualApplication({ application, numApp, onDeleteApp
             <div>
                 <ApplicationColumn cannotEdit={true}>
                     <button
-                        onClick={() => onDeleteApplication(application.application_id)}>Delete</button>
+                        onClick={() => onDeleteApplication(application.application_id)}
+                        >Delete</button>
                 </ApplicationColumn>
             </div>
 

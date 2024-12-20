@@ -8,7 +8,6 @@ export default function ApplicationTable() {
     const { applications, removeApplication } = useApplications();
     const tableRef = useRef(null);
     const prevApplicationsLength = useRef(applications.length);
-
     const initialLoad = useRef(true);
 
     useEffect(() => {
