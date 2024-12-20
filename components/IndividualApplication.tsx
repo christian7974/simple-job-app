@@ -95,7 +95,7 @@ export default function IndividualApplication({ application, numApp, onDeleteApp
             <ApplicationColumn
                 fieldInDB='application_date'
                 applicationIdToChange={application.application_id}>
-                {application.application_date.toString()}</ApplicationColumn>
+                {`${applicationDate.getMonth() + 1}/${(applicationDate.getDate() + 1).toString().padStart(2, '0')}`}</ApplicationColumn>
             <ApplicationColumn
                 fieldInDB='status'
                 className="max-[700px]:hidden"
