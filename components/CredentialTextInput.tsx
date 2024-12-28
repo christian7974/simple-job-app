@@ -10,7 +10,7 @@ interface TextInputProps {
 export default function CredentialTextInput({id, name, required, value, onChange, type}: TextInputProps) {
     return (
         <input 
-            className="p-1 border border-[#D3D3D3] rounded-md w-[35%] max-[950px]:w-[90%] text-black"
+            className="p-1 border border-[#D3D3D3] rounded-md w-[50%] max-[950px]:w-[90%] text-black"
             id={id}
             name={name}
             required={required}
