@@ -25,7 +25,13 @@ export default function SignUpComponent() {
         setErrorMessage("");
         setLoading(true);
         const formData = new FormData(event.target);
-        const result = await signup(formData);
+
+        if (email.length > 255 || password.length > 255) { 
+            setErrorMessage("Email and password must be less than 255 characters");
+            setLoading(false);
+            return;
+        }
+
         if (password != confirmPassword) {
             setErrorMessage("Passwords do not match");
             setLoading(false);
@@ -42,6 +48,8 @@ export default function SignUpComponent() {
             setLoading(false);
             return;
         }
+
+        const result = await signup(formData);
 
         if (result.error) {
             setErrorMessage(result.error);

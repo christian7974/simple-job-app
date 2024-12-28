@@ -22,13 +22,20 @@ export default function LogInComponent() {
         setErrorMessage("");
         setLoading(true);
         const formData = new FormData(event.target as HTMLFormElement);
-        const result = await login(formData);
+
+        if (email.length > 255 || password.length > 255) { 
+            setErrorMessage("Email and password must be less than 255 characters");
+            setLoading(false);
+            return;
+        }
 
         if (!validEmail(email)) {
             setErrorMessage("Invalid email - please enter a valid email");
             setLoading(false);
             return;
         }
+
+        const result = await login(formData);
 
         if (result.error) {
             console.log(result);

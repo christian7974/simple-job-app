@@ -7,7 +7,6 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/utils/supabase/server'
 import { isStrongPasword } from '@/utils/signIn';
 import { Application } from './globalTypes';
-import { format } from 'path';
 
 export async function signup(formData: FormData) {
     const supabase = await createClient();
@@ -17,6 +16,10 @@ export async function signup(formData: FormData) {
         confirmEmail: formData.get('confirmEmail') as string,
         password: formData.get('password') as string,
         confirmPassword: formData.get('confirmPassword') as string,
+    }
+
+    if (data.email.length > 255 || data.password.length > 255) { 
+        return { error: "Email and password must be less than 255 characters" }
     }
 
     if (data.password !== data.confirmPassword) {
@@ -49,6 +52,10 @@ export async function login(formData: FormData) {
         password: formData.get('password') as string,
     }
 
+    if (data.email.length > 255 || data.password.length > 255) { 
+        return { error: "Email and password must be less than 255 characters" }
+    }
+
     const { error } = await supabase.auth.signInWithPassword(data);
 
     if (error) {
@@ -79,7 +86,8 @@ export async function verifyApplication(formData: FormData, inserting: boolean =
     if (!user) {
         return { error: "User not found" }
     }
-    
+
+
     const applicationDate = formData.get('applicationDate') as string || new Date().toISOString().split('T')[0];
     const formattedDate = new Date(applicationDate).toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
 
@@ -93,6 +101,10 @@ export async function verifyApplication(formData: FormData, inserting: boolean =
         notes: formData.get('applicationNotes') as string,
         application_link: formData.get('applicationLink') as string,
     };
+
+    if (newApplication.company_name.length > 255 || newApplication.job_title.length > 255 || newApplication.status.length > 255) { 
+        return { error: "Company Name, Position Title, and Status must be less than 255 characters" }
+    }
 
     if (!newApplication.company_name) {
         return { error: "Company Name is required" };

@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import anime from 'animejs/lib/anime.es.js';
+import { useState } from 'react';
 
 import { Application } from '@/utils/globalTypes';
 import { createClient } from '@/utils/supabase/client';
@@ -16,12 +15,16 @@ function ApplicationColumn({ children, className, fieldInDB, applicationIdToChan
 
         if (fieldInDB === "application_date" && inputValue) {
             const inputValueAsDate = new Date(inputValue);
-            // inputValueAsDate.setDate(inputValueAsDate.getDate());
             if (inputValueAsDate > new Date()) {
                 alert(`Please enter a date that is on or before ${new Date().toLocaleDateString()} `);
                 return;
             }
             inputValue = inputValueAsDate.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
+        }
+
+        if (fieldInDB != "application_date" && inputValue && inputValue.length > 55) { 
+            alert(`Please enter a value that is less than 55 characters`);
+            return;
         }
 
         if (!inputValue && (fieldInDB === "company_name" || fieldInDB === "job_title" || fieldInDB === "status")) {

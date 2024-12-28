@@ -25,6 +25,8 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
     const inputStyle = "mt-1 lg:p-2 p-1 border rounded w-full lg:text-lg text-xl";
     const labelStyle = "text-lg lg:text-2xl";
 
+    const maxInputLength = 55;
+
     const [validInputs, setValidInputs] = useState({
         companyName: true,
         positionTitle: true,
@@ -41,12 +43,18 @@ export default function AddApplicationModal({isOpen, onClose}: ModalProps) {
             setErrorMessage(`Please enter a date that is on or before ${new Date().toLocaleDateString()} `);
             return;
         }
-        console.log(formData.get('applicationDate'));
+
         setValidInputs({
           companyName: companyNameValid,
           positionTitle: positionTitleValid,
           status: statusValid,
         });
+
+        if (companyName.length > maxInputLength || positionTitle.length > maxInputLength || status.length > maxInputLength) { 
+            setErrorMessage(`Please enter a value that is less than ${maxInputLength} characters`);
+            return;
+        }
+
         const result = await verifyApplication(formData);
         if (result?.error) {
             setErrorMessage(result.error);
